@@ -1,16 +1,11 @@
-import Victor from 'victor';
+import VectorAdapter from './victor-adapter';
 
-export default class Vector {
+export default class Vector extends VectorAdapter {
     constructor(x, y) {
-        this.vector = new Victor(x, y);
-    }
-
-    clone() {
-        return this.vector.clone();
+        super(x, y);
     }
 
     add(vector) {
-        let result = this.clone().add(vector.vector);
-        return new Vector(result.x, result.y);
+        return super.add(vector);
     }
 }
