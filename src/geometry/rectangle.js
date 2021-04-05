@@ -11,7 +11,7 @@ export default class Rectangle {
         return this.width * this.height;
     }
 
-    inside(x, y) {
+    isInside(x, y) {
         return x > this.x  &&
             y > this.y &&
             x < this.x + this.width &&
