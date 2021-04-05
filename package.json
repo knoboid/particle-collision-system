@@ -12,7 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "katex": "^0.12.0",
-    "p5": "^1.1.9"
+    "p5": "^1.1.9",
+    "victor": "^1.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
