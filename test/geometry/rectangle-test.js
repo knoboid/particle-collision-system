@@ -9,7 +9,7 @@ describe('Tests for Rectangle class', () => {
         expect(rectangle.area()).to.equal(40000);
     });
 
-    it('test inside', () => {
+    it('test isInside', () => {
         let rectangle = new Rectangle(200, 200, 200, 200);
         expect(rectangle.isInside(100, 100)).to.equal(false);
         expect(rectangle.isInside(300, 100)).to.equal(false);
@@ -20,6 +20,29 @@ describe('Tests for Rectangle class', () => {
         expect(rectangle.isInside(100, 500)).to.equal(false);
         expect(rectangle.isInside(300, 500)).to.equal(false);
         expect(rectangle.isInside(500, 500)).to.equal(false);
+    });
+
+    it('test isInside with a margin', () => {
+        let rectangle = new Rectangle(200, 200, 200, 200);
+        expect(rectangle.isInside(240, 240, 50)).to.equal(false);
+        expect(rectangle.isInside(260, 240, 50)).to.equal(false);
+        expect(rectangle.isInside(240, 260, 50)).to.equal(false);
+        expect(rectangle.isInside(260, 260, 50)).to.equal(true);
+
+        expect(rectangle.isInside(340, 240, 50)).to.equal(false);
+        expect(rectangle.isInside(360, 240, 50)).to.equal(false);
+        expect(rectangle.isInside(340, 260, 50)).to.equal(true);
+        expect(rectangle.isInside(360, 260, 50)).to.equal(false);
+
+        expect(rectangle.isInside(240, 340, 50)).to.equal(false);
+        expect(rectangle.isInside(260, 340, 50)).to.equal(true);
+        expect(rectangle.isInside(240, 360, 50)).to.equal(false);
+        expect(rectangle.isInside(260, 360, 50)).to.equal(false);
+
+        expect(rectangle.isInside(340, 340, 50)).to.equal(true);
+        expect(rectangle.isInside(360, 340, 50)).to.equal(false);
+        expect(rectangle.isInside(340, 360, 50)).to.equal(false);
+        expect(rectangle.isInside(360, 360, 50)).to.equal(false);
     });
 
 });
