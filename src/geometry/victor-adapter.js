@@ -6,7 +6,11 @@ export default class VictorAdapter extends Victor {
     }
 
     add(vector) {
-        let result = this.clone().add(vector);
-        return new Victor(result.x, result.y);
+        return this.clone().add(vector);
+
+    }
+
+    subtract(vector) {
+        return this.clone().subtract(vector);
     }
 }

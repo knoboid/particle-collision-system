@@ -8,4 +8,12 @@ export default class Vector extends VectorAdapter {
     add(vector) {
         return super.add(vector);
     }
+
+    subtract(vector) {
+        return super.subtract(vector);
+    }
+
+    distance(vector) {
+        return super.distance(vector);
+    }
 }
