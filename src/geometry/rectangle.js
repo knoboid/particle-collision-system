@@ -21,10 +21,26 @@ export default class Rectangle {
      * @returns boolean
      */
     isInside(x, y, margin=0) {
-        return x > this.x + margin  &&
-            y > this.y + margin &&
-            x < this.x + this.width - margin &&
-            y < this.y + this.height - margin;
+        return this.isWithinLeft(x, margin)  &&
+            this.isWithinTop(y, margin) &&
+            this.isWithinRight(x, margin) &&
+            this.isWithinBottom(y, margin);
+    }
+
+    isWithinLeft(x, margin) {
+        return x > this.x + margin;
+    }
+
+    isWithinRight(x, margin) {
+        return x < this.x + this.width - margin;
+    }
+
+    isWithinTop(y, margin) {
+        return y > this.y + margin;
+    }
+
+    isWithinBottom(y, margin) {
+        return y < this.y + this.height - margin;
     }
 
 }
