@@ -27,19 +27,19 @@ export default class Rectangle {
             this.isWithinBottom(y, margin);
     }
 
-    isWithinLeft(x, margin) {
+    isWithinLeft(x, margin=0) {
         return x > this.x + margin;
     }
 
-    isWithinRight(x, margin) {
+    isWithinRight(x, margin=0) {
         return x < this.x + this.width - margin;
     }
 
-    isWithinTop(y, margin) {
+    isWithinTop(y, margin=0) {
         return y > this.y + margin;
     }
 
-    isWithinBottom(y, margin) {
+    isWithinBottom(y, margin=0) {
         return y < this.y + this.height - margin;
     }
 
