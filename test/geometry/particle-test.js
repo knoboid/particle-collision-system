@@ -27,4 +27,37 @@ describe('Tests for Particle class', () => {
         expect(particle.position.y).to.equal(311);
     });
 
+    it('test distanceFromCenter', () => {
+        let particle = new Particle(0, 0, 1);
+        let distance = particle.distanceFromCenter(new Vector(3, 4));
+        expect(distance).to.equal(5);
+        // Test alias
+        distance = particle.distanceFromCentre(new Vector(3, 4));
+        expect(distance).to.equal(5);
+    });
+
+    it('test distanceBetweenParticleCenters', () => {
+        let particle1 = new Particle(1, 2, 1);
+        let particle2 = new Particle(4, 6, 1);
+        let distance = particle1.distanceBetweenParticleCenters(particle2);
+        expect(distance).to.equal(5);
+        // Test alias
+        particle2 = new Particle(7, 10, 1);
+        distance = particle1.distanceBetweenParticleCentres(particle2);
+        expect(distance).to.equal(10);
+    });
+
+    it('test distanceBetweenParticles', () => {
+        let particle1 = new Particle(1, 2, 1);
+        let particle2 = new Particle(4, 6, 1);
+        let distance = particle1.distanceBetweenParticles(particle2);
+        expect(distance).to.equal(3);
+        // Test alias
+        particle2 = new Particle(7, 10, 0.5);
+        distance = particle1.distanceBetweenParticles(particle2);
+        expect(distance).to.equal(8.5);
+    });
+
+
+
 });
