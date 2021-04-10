@@ -39,14 +39,19 @@ const sketch = (s) => {
     s.setup = () => {
         s.createCanvas(s.windowWidth, s.windowHeight);
         rectangle = new Rectangle(10, 10, 400, 600);
-        p1 = new Particle(220, 300, 40, 2, 2.3);
-        p2 = new Particle(170, 200, 40, -2, -1.5);
+        let max = 4;
+        p1 = new Particle(220, 300, 40, 2 * max * (Math.random() - 0.5), 2 * max * (Math.random() - 0.5));
+        p2 = new Particle(170, 200, 40, 2 * max * (Math.random() - 0.5), 2 * max * (Math.random() - 0.5));
     };
 
     s.draw = () => {
-        s.background(26);
-        s.fill(255);
+        s.background(0);
+
+        s.fill(0,255,0);
         drawRectangle(s, rectangle);
+
+        s.fill(126, 255, 126);
+        s.noStroke();
         p1.update();
         particleBounceDetect(p1, rectangle);
         drawParticle(s, p1);
