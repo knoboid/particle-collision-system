@@ -22,9 +22,9 @@ const sketch = (s) => {
         s.createCanvas(s.windowWidth, s.windowHeight);
         rectangle = new Rectangle(10, 10, 400, 600);
         boundary = new RectangularBoundary(rectangle);
-        let max = 4;
-        p1 = new Particle(220, 300, 40, 2 * max * (Math.random() - 0.5), 2 * max * (Math.random() - 0.5));
-        p2 = new Particle(170, 200, 40, 2 * max * (Math.random() - 0.5), 2 * max * (Math.random() - 0.5));
+        let max = 3;
+        p1 = new Particle(220, 300, 60, 2 * max * (Math.random() - 0.5), 2 * max * (Math.random() - 0.5));
+        p2 = new Particle(170, 200, 60, 2 * max * (Math.random() - 0.5), 2 * max * (Math.random() - 0.5));
     };
 
     s.draw = () => {
@@ -33,7 +33,7 @@ const sketch = (s) => {
         s.fill(0,255,0);
         drawRectangle(s, rectangle);
 
-        s.fill(126, 255, 126);
+        s.fill(191, 255, 127);
         s.noStroke();
         
         p1.update();
