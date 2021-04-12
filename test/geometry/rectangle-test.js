@@ -45,4 +45,24 @@ describe('Tests for Rectangle class', () => {
         expect(rectangle.isInside(360, 360, 50)).to.equal(false);
     });
 
+    it('test xRight', () => {
+        let rectangle = new Rectangle(6, 5, 4, 3);
+        expect(rectangle.xRight()).to.equal(10);
+    });
+
+    it('test xLeft', () => {
+        let rectangle = new Rectangle(6, 5, 4, 3);
+        expect(rectangle.xLeft()).to.equal(6);
+    });
+
+    it('test yBottom', () => {
+        let rectangle = new Rectangle(6, 5, 4, 3);
+        expect(rectangle.yBottom()).to.equal(8);
+    });
+
+    it('test yTop', () => {
+        let rectangle = new Rectangle(6, 5, 4, 3);
+        expect(rectangle.yTop()).to.equal(5);
+    });
+
 });

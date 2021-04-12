@@ -43,4 +43,20 @@ export default class Rectangle {
         return y < this.y + this.height - margin;
     }
 
+    xRight() {
+        return this.x + this.width;
+    }
+
+    xLeft() {
+        return this.x;
+    }
+
+    yBottom() {
+        return this.y + this.height;
+    }
+
+    yTop() {
+        return this.y;
+    }
+
 }
