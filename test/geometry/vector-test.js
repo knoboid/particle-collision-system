@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import Vector from '../../src/geometry/vector';
-import Victor from 'victor';
 
 describe('Tests for Vector class', () => {
 
