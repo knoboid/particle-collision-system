@@ -13,6 +13,10 @@ export default class Vector extends VectorAdapter {
         return super.subtract(vector);
     }
 
+    multiply(scalar) {
+        return super.multiply(scalar);
+    }
+
     distance(vector) {
         return super.distance(vector);
     }

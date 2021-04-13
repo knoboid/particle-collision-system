@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import Vector from '../../src/geometry/vector';
+import Victor from 'victor';
 
 describe('Tests for Vector class', () => {
 
@@ -35,6 +36,14 @@ describe('Tests for Vector class', () => {
         expect(distance).to.equal(5);
         expect(v1.x).to.equal(1);
         expect(v2.x).to.equal(4);
+    });
+
+    it('test multiply', () => {
+        let v1 = new Vector(1, 2);
+        let s = 5;
+        let v2 = v1.multiply(s);
+        expect(v2.x).to.equal(5);
+        expect(v1.x).to.equal(1);
     });
 
 });
