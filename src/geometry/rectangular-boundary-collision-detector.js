@@ -5,9 +5,12 @@ export default class RectangularBoundaryCollisionDetector {
     }
 
     recalculate() {
+        let timeToRight, timeToTop, timeToLeft, timeToBottom;
+        let timeDifference, timeComparison;
         let xDirection = Math.sign(this.p1.velocity.x);
         let yDirection = Math.sign(this.p1.velocity.y);
         let code = 3 * yDirection + xDirection;
+        
         switch (code) {
             case 0: // xDirection: 0, yDirection: 0 (stationary)
                 return [0, 0, NaN, this.noOperation];
@@ -25,10 +28,10 @@ export default class RectangularBoundaryCollisionDetector {
                 return [0, -1, this.timeToTop(), this.toggleY];
 
             case 4: // xDirection: 1, yDirection: 1 (lower right)
-                let timeToRight = this.timeToRight();
-                let timeToBottom = this.timeToBottom();
-                let timeDifference = timeToRight - timeToBottom;
-                let timeComparison = Math.sign(timeDifference);
+                timeToRight = this.timeToRight();
+                timeToBottom = this.timeToBottom();
+                timeDifference = timeToRight - timeToBottom;
+                timeComparison = Math.sign(timeDifference);
                 switch (timeComparison) {
                     case -1:
                         return [1, 0, timeToRight, this.toggleX];
@@ -44,7 +47,7 @@ export default class RectangularBoundaryCollisionDetector {
 
             case -2: // xDirection: 1, yDirection: -1 (upper right)
                 timeToRight = this.timeToRight();
-                let timeToTop = this.timeToTop();
+                timeToTop = this.timeToTop();
                 timeDifference = timeToRight - timeToTop;
                 timeComparison = Math.sign(timeDifference);
                 switch (timeComparison) {
@@ -61,7 +64,7 @@ export default class RectangularBoundaryCollisionDetector {
                 break;
 
             case -4: // xDirection: -1, yDirection: -1 (upper left)
-                let timeToLeft = this.timeToLeft();
+                timeToLeft = this.timeToLeft();
                 timeToTop = this.timeToTop();
                 timeDifference = timeToLeft - timeToTop;
                 timeComparison = Math.sign(timeDifference);
