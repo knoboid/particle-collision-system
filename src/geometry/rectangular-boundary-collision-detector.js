@@ -1,10 +1,10 @@
-export default class RectangularBoundaryCollisionGeometry {
+export default class RectangularBoundaryCollisionDetector {
     constructor(p1, rectangle) {
         this.p1 = p1;
         this.rectangle = rectangle;
     }
 
-    reevaluate() {
+    recalculate() {
         let xDirection = Math.sign(this.p1.velocity.x);
         let yDirection = Math.sign(this.p1.velocity.y);
         let code = 3 * yDirection + xDirection;
