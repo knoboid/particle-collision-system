@@ -11,8 +11,8 @@ export default class Particle {
         this.position = this.position.add(vector);
     }
 
-    update() {
-        this.add(this.velocity);
+    update(stepTime=1) {
+        this.add(this.velocity.multiply(stepTime));
     }
 
     distanceFromCenter(point) {
