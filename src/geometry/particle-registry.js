@@ -1,7 +1,11 @@
 class ParticleRegistry {
     constructor() {
+        this.clear();
+    }
+
+    clear() {
         this.counter = 1;
-        this.particleLookupByName = {};
+        this.particleLookupByName = {};   
     }
 
     static getInstance(p5) {
@@ -34,6 +38,14 @@ class ParticleRegistry {
 
     getParticele(name) {
         return this.particleLookupByName[name];
+    }
+
+    getName(particle) {
+        let values = Object.values(this.particleLookupByName);
+        let index = values.indexOf(particle);
+        if (index !== -1) {
+            return Object.keys(this.particleLookupByName)[index];
+        }
     }
 
 }

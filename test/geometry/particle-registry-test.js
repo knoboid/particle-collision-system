@@ -29,14 +29,6 @@ describe('Tests for ParticleRegistry class', () => {
         let particle = new Particle(2, 2, 2);
         let name = registry.registerParticle(particle);
         expect(name).to.equal('1');
-        name = registry.registerParticle(particle);
-        expect(name).to.equal('2');
-        name = registry.registerParticle(particle, '4');
-        expect(name).to.equal('4');
-        name = registry.registerParticle(particle);
-        expect(name).to.equal('3');
-        name = registry.registerParticle(particle);
-        expect(name).to.equal('5');
     });
 
     it('test getParticle', () => {
@@ -54,5 +46,25 @@ describe('Tests for ParticleRegistry class', () => {
         expect(registry.getParticele(p1Name) === p2).to.equal(false);
     });
 
+    it('test getName', () => {
+        let registry = ParticleRegistry.getInstance();
+        registry.clear();
+
+        let p1 = new Particle(2, 2, 1);
+        let p1Name = registry.registerParticle(p1);
+
+        let p2 = new Particle(2, 2, 2);
+        let p2Name = registry.registerParticle(p2);
+
+        let p3 = new Particle(2, 2, 3);
+        registry.registerParticle(p3, 'hello');
+
+        expect(registry.getName(p1)).to.equal(p1Name);
+        expect(registry.getName(p2)).to.equal(p2Name);
+        expect(registry.getName(p3)).to.equal('hello');
+
+        let p4 = new Particle(2, 2, 3);
+        expect(registry.getName(p4)).to.equal(undefined);
+    });
 
 });
