@@ -5,3 +5,4 @@ import './geometry/rbcd-test';
 import './geometry/particle-registry-test';
 import './geometry/particle-system-test';
 import './geometry/future-collisions-test';
+import './geometry/particle-pair-collision-detector-test';
