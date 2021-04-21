@@ -40,10 +40,10 @@ describe('Tests for ParticleRegistry class', () => {
         let p2 = new Particle(2, 2, 2);
         let p2Name = registry.registerParticle(p2);
 
-        expect(registry.getParticele(p1Name) === p1).to.equal(true);
-        expect(registry.getParticele(p2Name) === p2).to.equal(true);
-        expect(registry.getParticele(p2Name) === p1).to.equal(false);
-        expect(registry.getParticele(p1Name) === p2).to.equal(false);
+        expect(registry.getParticle(p1Name) === p1).to.equal(true);
+        expect(registry.getParticle(p2Name) === p2).to.equal(true);
+        expect(registry.getParticle(p2Name) === p1).to.equal(false);
+        expect(registry.getParticle(p1Name) === p2).to.equal(false);
     });
 
     it('test getName', () => {

@@ -36,7 +36,7 @@ class ParticleRegistry {
         return name;
     }
 
-    getParticele(name) {
+    getParticle(name) {
         return this.particleLookupByName[name];
     }
 
