@@ -4,6 +4,12 @@ import Rectangle from '../../src/geometry/rectangle';
 import Particle from '../../src/geometry/particle';
 import RectangularBoundaryCollisionDetector from '../../src/geometry/rectangular-boundary-collision-detector';
 
+function transform(collisionData) {
+    let h = collisionData.clientData.h;
+    let v = collisionData.clientData.v;
+    return [h, v, collisionData.timeUntilCollision, collisionData.callback];
+}
+
 describe('Tests for RectangularBoundaryCollisionGeometry class', () => {
 
     it('test particle distance to rectangular boundary', () => {
@@ -40,35 +46,35 @@ describe('Tests for RectangularBoundaryCollisionGeometry class', () => {
         let rectangle = new Rectangle(0, 0, 10, 10);
         let particle = new Particle(6, 4, 1, 0, 0);
         let rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate()).to.eql([0, 0, NaN, rbch.noOperation]);
+        expect(transform(rbch.recalculate())).to.eql([0, 0, Infinity, RectangularBoundaryCollisionDetector.noOperation]);
     });
 
     it('test particle direction right', () => {
         let rectangle = new Rectangle(0, 0, 10, 10);
         let particle = new Particle(6, 4, 1, 1, 0);
         let rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([1, 0, 3]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([1, 0, 3]);
     });
 
     it('test particle direction left', () => {
         let rectangle = new Rectangle(0, 0, 10, 10);
         let particle = new Particle(6, 4, 1, -1, 0);
         let rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([-1, 0, 5]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([-1, 0, 5]);
     });
 
     it('test particle direction up', () => {
         let rectangle = new Rectangle(0, 0, 10, 10);
         let particle = new Particle(6, 4, 1, 0, -1);
         let rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([0, -1, 3]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([0, -1, 3]);
     });
 
     it('test particle direction down', () => {
         let rectangle = new Rectangle(0, 0, 10, 10);
         let particle = new Particle(6, 4, 1, 0, 1);
         let rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([0, 1, 5]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([0, 1, 5]);
     });
 
     it('test particle direction lower right', () => {
@@ -78,17 +84,17 @@ describe('Tests for RectangularBoundaryCollisionGeometry class', () => {
         // Heading lower right hitting right
         particle = new Particle(6, 4, 1, 1, 1);
         let rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([1, 0, 3]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([1, 0, 3]);
 
         // Heading lower right hitting bottom
         particle = new Particle(4, 6, 1, 1, 1);
         rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([0, 1, 3]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([0, 1, 3]);
 
         // Heading lower right hitting bottom right
         particle = new Particle(7, 7, 1, 1, 1);
         rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([1, 1, 2]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([1, 1, 2]);
     });
 
     it('test particle direction upper right', () => {
@@ -98,17 +104,17 @@ describe('Tests for RectangularBoundaryCollisionGeometry class', () => {
         // Heading upper right hitting right
         particle = new Particle(7, 4, 1, 1, -1);
         let rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([1, 0, 2]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([1, 0, 2]);
 
         // Heading upper right hitting top
         particle = new Particle(6, 3, 1, 1, -1);
         rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([0, -1, 2]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([0, -1, 2]);
 
         // Heading upper right hitting top right
         particle = new Particle(6, 4, 1, 1, -1);
         rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([1, -1, 3]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([1, -1, 3]);
     });
 
     it('test particle direction upper left', () => {
@@ -118,17 +124,17 @@ describe('Tests for RectangularBoundaryCollisionGeometry class', () => {
         // Heading upper left hitting left
         particle = new Particle(3, 4, 1, -1, -1);
         let rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([-1, 0, 2]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([-1, 0, 2]);
 
         // Heading upper left hitting top
         particle = new Particle(5, 3, 1, -1, -1);
         rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([0, -1, 2]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([0, -1, 2]);
 
         // Heading upper left hitting top left
         particle = new Particle(3, 3, 1, -1, -1);
         rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([-1, -1, 2]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([-1, -1, 2]);
     });
 
     it('test particle direction lower left', () => {
@@ -138,17 +144,17 @@ describe('Tests for RectangularBoundaryCollisionGeometry class', () => {
         // Heading lower left hitting left
         particle = new Particle(3, 4, 1, -1, 1);
         let rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([-1, 0, 2]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([-1, 0, 2]);
 
         // Heading lower left hitting bottom
         particle = new Particle(5, 7, 1, -1, 1);
         rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([0, 1, 2]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([0, 1, 2]);
 
         // Heading lower left hitting bottom left
         particle = new Particle(7, 3, 1, -1, 1);
         rbch = new RectangularBoundaryCollisionDetector(particle, rectangle);
-        expect(rbch.recalculate().slice(0, 3)).to.eql([-1, 1, 6]);
+        expect(transform(rbch.recalculate()).slice(0, 3)).to.eql([-1, 1, 6]);
     });
 
 });

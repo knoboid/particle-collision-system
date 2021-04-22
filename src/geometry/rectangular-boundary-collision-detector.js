@@ -1,3 +1,5 @@
+import CollisionData from './collision-data';
+
 export default class RectangularBoundaryCollisionDetector {
     constructor(p1, rectangle) {
         this.p1 = p1;
@@ -13,19 +15,39 @@ export default class RectangularBoundaryCollisionDetector {
 
         switch (code) {
             case 0: // xDirection: 0, yDirection: 0 (stationary)
-                return [0, 0, NaN, this.noOperation];
+                return new CollisionData(
+                    Infinity,
+                    RectangularBoundaryCollisionDetector.noOperation,
+                    { h: 0, v: 0 }
+                );
 
             case 1: // xDirection: 1, yDirection: 0 (right)
-                return [1, 0, this.timeToRight(), () => this.toggleX()];
+                return new CollisionData(
+                    this.timeToRight(),
+                    () => this.toggleX(),
+                    { h: 1, v: 0 }
+                );
 
             case -1: // xDirection: -1, yDirection: 0 (left)
-                return [-1, 0, this.timeToLeft(), () => this.toggleX()];
+                return new CollisionData(
+                    this.timeToLeft(),
+                    () => this.toggleX(),
+                    { h: -1, v: 0 }
+                );
         
             case 3: // xDirection: 0, yDirection: 1 (down)
-                return [0, 1, this.timeToBottom(), () => this.toggleY()];
+                return new CollisionData(
+                    this.timeToBottom(),
+                    () => this.toggleY(),
+                    { h: 0, v: 1 }
+                );
 
             case -3: // xDirection: 0, yDirection: -1 (up)
-                return [0, -1, this.timeToTop(), () => this.toggleY()];
+                return new CollisionData(
+                    this.timeToTop(),
+                    () => this.toggleY(),
+                    { h: 0, v: -1 }
+                );
 
             case 4: // xDirection: 1, yDirection: 1 (lower right)
                 timeToRight = this.timeToRight();
@@ -34,13 +56,25 @@ export default class RectangularBoundaryCollisionDetector {
                 timeComparison = Math.sign(timeDifference);
                 switch (timeComparison) {
                     case -1:
-                        return [1, 0, timeToRight, () => this.toggleX()];
+                        return new CollisionData(
+                            timeToRight,
+                            () => this.toggleX(),
+                            { h: 1, v: 0 }
+                        );
                         
                     case 1:
-                        return [0, 1, timeToBottom, () => this.toggleY()];
+                        return new CollisionData(
+                            timeToBottom,
+                            () => this.toggleY(),
+                            { h: 0, v: 1 }
+                        );
 
                     case 0:
-                        return [1, 1, timeToRight, () => this.toggleX()];
+                        return new CollisionData(
+                            timeToRight,
+                            () => this.toggleXY(),
+                            { h: 1, v: 1 }
+                        );
                 }
 
                 break;
@@ -52,13 +86,25 @@ export default class RectangularBoundaryCollisionDetector {
                 timeComparison = Math.sign(timeDifference);
                 switch (timeComparison) {
                     case -1:
-                        return [1, 0, timeToRight, () => this.toggleX()];
+                        return new CollisionData(
+                            timeToRight,
+                            () => this.toggleX(),
+                            { h: 1, v: 0 }
+                        );
                         
                     case 1:
-                        return [0, -1, timeToTop, () => this.toggleY()];
+                        return new CollisionData(
+                            timeToTop,
+                            () => this.toggleY(),
+                            { h: 0, v: -1 }
+                        );
 
                     case 0:
-                        return [1, -1, timeToRight, () => this.toggleX()];
+                        return new CollisionData(
+                            timeToRight,
+                            () => this.toggleXY(),
+                            { h: 1, v: -1 }
+                        );
                 }
 
                 break;
@@ -70,13 +116,25 @@ export default class RectangularBoundaryCollisionDetector {
                 timeComparison = Math.sign(timeDifference);
                 switch (timeComparison) {
                     case -1: // left
-                        return [-1, 0, timeToLeft, () => this.toggleX()];
+                        return new CollisionData(
+                            timeToLeft,
+                            () => this.toggleX(),
+                            { h: -1, v: 0 }
+                        );
                         
                     case 1: // up
-                        return [0, -1, timeToTop, () => this.toggleY()];
+                        return new CollisionData(
+                            timeToTop,
+                            () => this.toggleY(),
+                            { h: 0, v: -1 }
+                        );
 
                     case 0:
-                        return [-1, -1, timeToLeft, () => this.toggleX()];
+                        return new CollisionData(
+                            timeToLeft,
+                            () => this.toggleXY(),
+                            { h: -1, v: -1 }
+                        );
                 }
 
                 break;
@@ -86,15 +144,28 @@ export default class RectangularBoundaryCollisionDetector {
                 timeToBottom = this.timeToBottom();
                 timeDifference = timeToLeft - timeToBottom;
                 timeComparison = Math.sign(timeDifference);
+
                 switch (timeComparison) {
                     case -1: // left
-                        return [-1, 0, timeToLeft, () => this.toggleX()];
+                        return new CollisionData(
+                            timeToLeft,
+                            () => this.toggleX(),
+                            { h: -1, v: 0 }
+                        );
                         
-                    case 1: // up
-                        return [0, 1, timeToBottom, () => this.toggleY()];
+                    case 1: // down
+                        return new CollisionData(
+                            timeToBottom,
+                            () => this.toggleY(),
+                            { h: 0, v: 1 }
+                        );
 
                     case 0:
-                        return [-1, 1, timeToLeft, () => this.toggleX()];
+                        return new CollisionData(
+                            timeToLeft,
+                            () => this.toggleXY(),
+                            { h: -1, v: 1 }
+                        );
                 }
         }
     }
@@ -131,7 +202,7 @@ export default class RectangularBoundaryCollisionDetector {
         return this.distanceToBottom()/this.p1.velocity.y;
     }
 
-    noOperation() {
+    static noOperation() {
 
     }
 
