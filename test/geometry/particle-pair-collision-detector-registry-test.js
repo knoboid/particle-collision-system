@@ -78,21 +78,41 @@ describe('Tests for ParticlePairCollisionDetectorRegistry', () => {
 
         let [name1, name2, name3, name4] = Object.keys(pairCollisionDetectorRegistry.particles);
 
-        expect(pairCollisionDetectorRegistry.recalculateResults[name1]).to.eql({});
-        expect(pairCollisionDetectorRegistry.recalculateResults[name1][name2]).to.not.exist;
+        expect(pairCollisionDetectorRegistry.calculatedCollisionData[name1]).to.eql({});
+        expect(pairCollisionDetectorRegistry.calculatedCollisionData[name1][name2]).to.not.exist;
 
         pairCollisionDetectorRegistry.recalculate(name1);
-        expect(pairCollisionDetectorRegistry.recalculateResults[name1][name2]).to.equal(pairCollisionDetectorRegistry.recalculateResults[name2][name1]);
-        let timeToCollision = pairCollisionDetectorRegistry.recalculateResults[name1][name2][2];
+        expect(pairCollisionDetectorRegistry.calculatedCollisionData[name1][name2]).to.equal(pairCollisionDetectorRegistry.calculatedCollisionData[name2][name1]);
+        let timeToCollision = pairCollisionDetectorRegistry.calculatedCollisionData[name1][name2][2];
         expect(timeToCollision).to.equal(4);
 
-        expect(pairCollisionDetectorRegistry.recalculateResults[name3][name4]).to.not.exist;
+        expect(pairCollisionDetectorRegistry.calculatedCollisionData[name3][name4]).to.not.exist;
 
         pairCollisionDetectorRegistry.recalculateAll();
 
-        expect(pairCollisionDetectorRegistry.recalculateResults[name3][name4]).to.exist;
-        timeToCollision = pairCollisionDetectorRegistry.recalculateResults[name3][name4][2];
+        expect(pairCollisionDetectorRegistry.calculatedCollisionData[name3][name4]).to.exist;
+        timeToCollision = pairCollisionDetectorRegistry.calculatedCollisionData[name3][name4][2];
         expect(timeToCollision).to.equal(5);
+    });
+
+
+    it('should compute the time of the next collision in the system', () => {
+        
+        let particleRegistry = ParticleRegistry.getInstance();
+        particleRegistry.clear();
+        let pairCollisionDetectorRegistry = ParticlePairCollisionDetectorRegistry.getInstance();
+        pairCollisionDetectorRegistry.clear();
+
+        pairCollisionDetectorRegistry.addParticle(particleRegistry.registerParticle(new Particle(0, 0, 1, 1, 0)));
+        pairCollisionDetectorRegistry.addParticle(particleRegistry.registerParticle(new Particle(9, 0, 1, -1, 0)));
+        pairCollisionDetectorRegistry.addParticle(particleRegistry.registerParticle(new Particle(0, 3, 1, 1, 0)));
+        pairCollisionDetectorRegistry.addParticle(particleRegistry.registerParticle(new Particle(12, 3, 1, -1, 0)));
+
+        pairCollisionDetectorRegistry.recalculateAll();
+
+        let nextCollision = pairCollisionDetectorRegistry.getNextCollision();
+        expect(nextCollision[2]).to.equal(3.5);
+        expect(pairCollisionDetectorRegistry.nextCollisionData[2]).to.equal(3.5);
     });
 
 });

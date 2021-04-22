@@ -12,8 +12,7 @@ class ParticlePairCollisionDetectorRegistry {
         this.particles = {};
         this.particlePairCollisionDetectors = {};
         this.particlePairCollisionDetectorArray = [];
-        this.recalculateResults = {};
-
+        this.calculatedCollisionData = {};
     }
 
     static getInstance(p5) {
@@ -24,7 +23,7 @@ class ParticlePairCollisionDetectorRegistry {
         let particle = particleRegistry.getParticle(particleName);
         this.addNewParticlePairCollisionDetectors(particleName, particle);
         this.particles[particleName] = particle;
-        this.recalculateResults[particleName] = {};
+        this.calculatedCollisionData[particleName] = {};
     }
 
     addNewParticlePairCollisionDetectors(particleName, particle) {
@@ -48,12 +47,12 @@ class ParticlePairCollisionDetectorRegistry {
     recalculate(particleName) {
         let collisionDetectorEntries = Object.entries(this.getCollisionDetectors(particleName));
         collisionDetectorEntries.forEach( ([name, collisionDetector]) => {
-            let result = collisionDetector.recalculate();
-            this.storeResult(particleName, name, result);
+            let collisionData = collisionDetector.recalculate();
+            this.storeCollisionData(particleName, name, collisionData);
         });
     }
 
-    recalculateAll() {
+    traverseAll(callback) {
         let particleNames = this.particleNames();
         let size = particleNames.length;
         if (size < 2) return;
@@ -62,9 +61,15 @@ class ParticlePairCollisionDetectorRegistry {
         outerLoopNames.forEach( name1 => {
             let innerLoopNames = particleNames.slice(counter)
             innerLoopNames.forEach( name2 => {
-                this.recalculateAndStore(name1, name2);
+                callback(name1, name2);
             });
             counter++;
+        });
+    }
+
+    recalculateAll() {
+        this.traverseAll((name1, name2) => {
+            this.recalculateAndStore(name1, name2);
         });
     }
 
@@ -75,17 +80,36 @@ class ParticlePairCollisionDetectorRegistry {
 
     recalculateAndStore(name1, name2) {
         let collisionDetector = this.getCollisionDetector(name1, name2);
-        let result = collisionDetector.recalculate();
-        this.storeResult(name1, name2, result);
+        let collisionData = collisionDetector.recalculate();
+        this.storeCollisionData(name1, name2, collisionData);
     }
 
-    storeResult(name1, name2, result) {
-        this.recalculateResults[name1][name2] = result;
-        this.recalculateResults[name2][name1] = result;
+    storeCollisionData(name1, name2, collisionData) {
+        this.calculatedCollisionData[name1][name2] = collisionData;
+        this.calculatedCollisionData[name2][name1] = collisionData;
     }
 
     particleNames() {
         return Object.keys(this.particles);
+    }
+
+    /**
+     * Traverses the calculatedCollisionData property and finds the 
+     * collisionData with the lowest time-to-next-collision.
+     * Returns the result, and also assigns it to the nextCollisionData property
+     * 
+     * @returns nextCollisionData 
+     */
+    getNextCollision() {
+        let nextCollisionData = [undefined, undefined, Infinity, undefined];
+        let collisionData;
+
+        this.traverseAll((name1, name2) => {
+            collisionData = this.calculatedCollisionData[name1][name2];
+            if (collisionData[2] < nextCollisionData[2]) nextCollisionData = collisionData;
+        });
+        this.nextCollisionData = nextCollisionData;
+        return nextCollisionData;
     }
 
 }
