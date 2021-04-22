@@ -1,3 +1,5 @@
+import CollisionData from './collision-data';
+
 export default class ParticlePairCollisionDetector {
     constructor(p1, p2) {
         this.p1 = p1;
@@ -31,10 +33,10 @@ export default class ParticlePairCollisionDetector {
             let sqrt = Math.sqrt(bSquaredMinusFourAC);
             let t1 =  (-b - sqrt)/(2 * a);
             if (t1 > 0) {
-                return [undefined, 'particle', t1, () => this.callback()];
+                return new CollisionData(t1, () => this.callback());
             }
         }
-        return [undefined, undefined, Infinity];
+        return new CollisionData(Infinity);
     }
 
 }

@@ -1,5 +1,6 @@
 import ParticleRegistry from './particle-registry';
 import ParticlePairCollisionDetector from './particle-pair-collision-detector';
+import CollisionData from './collision-data';
 
 let particleRegistry = ParticleRegistry.getInstance();
 
@@ -102,11 +103,12 @@ class ParticlePairCollisionDetectorRegistry {
      */
     getNextCollision() {
         let nextCollisionData = [undefined, undefined, Infinity, undefined];
+        nextCollisionData = new CollisionData(Infinity);
         let collisionData;
 
         this.traverseAll((name1, name2) => {
             collisionData = this.calculatedCollisionData[name1][name2];
-            if (collisionData[2] < nextCollisionData[2]) nextCollisionData = collisionData;
+            if (collisionData.timeUntilCollision < nextCollisionData.timeUntilCollision) nextCollisionData = collisionData;
         });
         this.nextCollisionData = nextCollisionData;
         return nextCollisionData;

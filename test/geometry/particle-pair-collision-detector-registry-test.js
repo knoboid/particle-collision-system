@@ -83,7 +83,7 @@ describe('Tests for ParticlePairCollisionDetectorRegistry', () => {
 
         pairCollisionDetectorRegistry.recalculate(name1);
         expect(pairCollisionDetectorRegistry.calculatedCollisionData[name1][name2]).to.equal(pairCollisionDetectorRegistry.calculatedCollisionData[name2][name1]);
-        let timeToCollision = pairCollisionDetectorRegistry.calculatedCollisionData[name1][name2][2];
+        let timeToCollision = pairCollisionDetectorRegistry.calculatedCollisionData[name1][name2].timeUntilCollision;
         expect(timeToCollision).to.equal(4);
 
         expect(pairCollisionDetectorRegistry.calculatedCollisionData[name3][name4]).to.not.exist;
@@ -91,7 +91,7 @@ describe('Tests for ParticlePairCollisionDetectorRegistry', () => {
         pairCollisionDetectorRegistry.recalculateAll();
 
         expect(pairCollisionDetectorRegistry.calculatedCollisionData[name3][name4]).to.exist;
-        timeToCollision = pairCollisionDetectorRegistry.calculatedCollisionData[name3][name4][2];
+        timeToCollision = pairCollisionDetectorRegistry.calculatedCollisionData[name3][name4].timeUntilCollision;
         expect(timeToCollision).to.equal(5);
     });
 
@@ -111,8 +111,8 @@ describe('Tests for ParticlePairCollisionDetectorRegistry', () => {
         pairCollisionDetectorRegistry.recalculateAll();
 
         let nextCollision = pairCollisionDetectorRegistry.getNextCollision();
-        expect(nextCollision[2]).to.equal(3.5);
-        expect(pairCollisionDetectorRegistry.nextCollisionData[2]).to.equal(3.5);
+        expect(nextCollision.timeUntilCollision).to.equal(3.5);
+        expect(pairCollisionDetectorRegistry.nextCollisionData.timeUntilCollision).to.equal(3.5);
     });
 
 });
