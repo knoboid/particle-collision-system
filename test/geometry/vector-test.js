@@ -45,4 +45,13 @@ describe('Tests for Vector class', () => {
         expect(v1.x).to.equal(1);
     });
 
+    it('test dot', () => {
+        let v1 = new Vector(1, 2);
+        let v2 = new Vector(5, -2);
+        let v3 = v1.dot(v2);
+        expect(v3).to.equal(1);
+        expect(v1).to.eql(new Vector(1, 2));
+        expect(v2).to.eql(new Vector(5, -2));
+    });
+
 });
