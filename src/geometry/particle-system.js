@@ -1,7 +1,7 @@
 import ParticleRegistry from './particle-registry';
-import ParticleCollisionManager from './particle-collision-manager';
 // import FurureCollisions from './future-collisions';
 import ParticlePairCollisionSystem from './particle-pair-collision-system';
+import BoundaryParticleCollisionSystem from './boundary-particle-collision-system';
 
 let particleRegistry = ParticleRegistry.getInstance();
 
@@ -10,8 +10,9 @@ let particleRegistry = ParticleRegistry.getInstance();
  */
 export default class ParticleSystem {
     constructor(boundary) {
-        this.particlePairSystem = new ParticlePairCollisionSystem();
         this.setBoundary(boundary);
+        this.particlePairSystem = new ParticlePairCollisionSystem();
+        this.boundaryParticleSystem = new BoundaryParticleCollisionSystem(boundary);
         this.particles = {};
         this.time = 0;
         this.timeOfNextCollision = Infinity;
@@ -25,52 +26,31 @@ export default class ParticleSystem {
 
     addParticle(particle) {
         let particleName = particleRegistry.registerParticle(particle);
-        let collisionManager = new ParticleCollisionManager(particle);
-        let collisionDetector = this.boundary.newBoundaryCollisionDetector(particle);
-        collisionManager.addCollisionDetector(collisionDetector, 'boundary');
         this.particles[particleName] = {
             particle,
-            collisionManager,
         };
         this.particlePairSystem.addNewParticle(particleName);
+        this.boundaryParticleSystem.addNewParticle(particleName);
         // this.futureCollisions.update(particleName, collisionManager.timeToNextCollision);
     }
 
     start() {
         this.particlePairSystem.recalculateAll();
-        let nextPairCollisions = this.particlePairSystem.getNextCollision();
+        const nextPairCollisions = this.particlePairSystem.getNextCollision();
         const pairCollisionTime = nextPairCollisions[0]['timeUntilCollision'];
 
-        let nextBoundaryCollisionDetectors = this.recalculateAllBoundaryCollisionManagers();
+        this.boundaryParticleSystem.recalculateAll();
+        const nextBoundaryCollisions = this.boundaryParticleSystem.getNextCollision();
+        const boundaryCollisionTime = nextBoundaryCollisions[0]['timeUntilCollision'];
         
-        if (nextBoundaryCollisionDetectors.time < pairCollisionTime) {
-            this.nextCollisions = nextBoundaryCollisionDetectors.nextCollisions;
-            this.timeOfNextCollision = nextBoundaryCollisionDetectors.time + this.time;
+        if (boundaryCollisionTime < pairCollisionTime) {
+            this.nextCollisions = nextBoundaryCollisions;
+            this.timeOfNextCollision = boundaryCollisionTime + this.time;
         }
         else {
             this.nextCollisions = nextPairCollisions;
             this.timeOfNextCollision = pairCollisionTime + this.time;   
         }
-    }
-
-    recalculateAllBoundaryCollisionManagers() {
-        let time = Infinity;
-        let nextCollisions = [];
-        Object.values(this.particles).forEach( particleData => {
-            particleData.collisionManager.evaluateCollisionDetectors();
-            if (particleData.collisionManager.timeToNextCollision < time) {
-                time = particleData.collisionManager.timeToNextCollision;
-                nextCollisions = [particleData.collisionManager.nextCollision];
-            }
-            else if (particleData.collisionManager.timeToNextCollision === time) {
-                nextCollisions.push(particleData.collisionManager.nextCollision);
-            }
-        });
-
-        return {
-            nextCollisions,
-            time
-        };
     }
 
     update(timeStep=1) {
