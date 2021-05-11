@@ -54,6 +54,12 @@ const sketch = (s) => {
         let p4 = new Particle(300, 300, 10, 2 * maxSpeed * -1, 2 * maxSpeed * 0);
         particleSystem.addParticle(p4);
 
+        let p5 = new Particle(100, 200, 10, 2 * maxSpeed * -1, 2 * maxSpeed * 0);
+        particleSystem.addParticle(p5);
+
+        let p6 = new Particle(300, 200, 10, 2 * maxSpeed * 1, 2 * maxSpeed * 0);
+        particleSystem.addParticle(p6);
+
         particleSystem.start(); 
     };
 
