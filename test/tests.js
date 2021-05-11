@@ -7,4 +7,5 @@ import './geometry/particle-system-test';
 import './geometry/future-collisions-test';
 import './geometry/particle-pair-collision-detector-test';
 import './geometry/elastic-collision-test';
-import './geometry/particle-pair-collision-system-test.js'
+import './geometry/particle-pair-collision-system-test.js';
+import './geometry/boundary-particle-collision-system-test.js';
