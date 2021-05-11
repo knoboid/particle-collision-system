@@ -3,8 +3,7 @@ import p5 from 'p5';
 import Rectangle from './geometry/rectangle';
 import Particle from './geometry/particle';
 import RectangularBoundary from './geometry/rectangular-boundary';
-import RectangularBoundaryCollisionDetector from './geometry/rectangular-boundary-collision-detector';
-import ParticleCollisionManager from './geometry/particle-collision-manager';
+import ParticleSystem from './geometry/particle-system';
 
 function drawRectangle(p5, r) {
     p5.rect(r.x, r.y, r.width, r.height);
@@ -14,47 +13,52 @@ function drawParticle(p5, p) {
     p5.circle(p.position.x, p.position.y, p.radius*2);
 }
 
+function drawParticles(p5, particleSystem) {
+    Object.values(particleSystem.particles).forEach(particleData => drawParticle(p5, particleData.particle));
+}
+
 let rectangle;
-let p1, p2;
-let boundary;
-let p1BCD, p2BCD;
-let p1PCM, p2PCM;
+let particleSystem;
 
 const sketch = (s) => {
 
     s.setup = () => {
         s.createCanvas(s.windowWidth, s.windowHeight);
-        rectangle = new Rectangle(10, 10, 400, 350);
-        boundary = new RectangularBoundary(rectangle);
+        rectangle = new Rectangle(0, 0, 400, 350);
+        const boundary = new RectangularBoundary(rectangle);
 
-        let max = 2;
-        p1 = new Particle(220, 300, 60, 2 * max * (Math.random() - 0.5), 2 * max * (Math.random() - 0.5));
-        p2 = new Particle(170, 200, 60, 2 * max * (Math.random() - 0.5), 2 * max * (Math.random() - 0.5));
-        
-        p1PCM = new ParticleCollisionManager(p1);
-        p2PCM = new ParticleCollisionManager(p2);
-        
-        p1BCD = new RectangularBoundaryCollisionDetector(p1, rectangle);
-        p2BCD = new RectangularBoundaryCollisionDetector(p2, rectangle);
+        particleSystem = new ParticleSystem(boundary);
 
-        p1PCM.addCollisionDetector(p1BCD);
-        p2PCM.addCollisionDetector(p2BCD);
+        const maxSpeed = 1;
+        // const step = 25;
+        const step = 50;
+
+        for (let i = 25; i < 380; i = i + step) {
+            for (let j = 25; j < 330; j += step) {
+                let r = Math.random();
+                let r2 = Math.pow(r, 7);
+                const mass = r2 * 8 + 4;
+                let particle = new Particle(i, j, mass, 2 * maxSpeed * (Math.random() - 0.5), 2 * maxSpeed * (Math.random() - 0.5));
+                particleSystem.addParticle(particle);
+            }
+        }
+
+        particleSystem.start();
+        
     };
 
     s.draw = () => {
         s.background(0);
 
-        s.fill(0,255,0);
+        s.fill(0,63,0);
         drawRectangle(s, rectangle);
 
         s.fill(191, 255, 127);
         s.noStroke();
 
-        p1PCM.update(1);
-        drawParticle(s, p1);
+        particleSystem.update(1);
 
-        p2PCM.update(1);
-        drawParticle(s, p2);
+        drawParticles(s, particleSystem);
     };
 
     s.mouseClicked = (event) => {
