@@ -24,27 +24,37 @@ const sketch = (s) => {
 
     s.setup = () => {
         s.createCanvas(s.windowWidth, s.windowHeight);
-        rectangle = new Rectangle(0, 0, 400, 350);
+        rectangle = new Rectangle(0, 0, 400, 400);
         const boundary = new RectangularBoundary(rectangle);
 
         particleSystem = new ParticleSystem(boundary);
 
         const maxSpeed = 1;
-        // const step = 25;
         const step = 50;
 
-        for (let i = 25; i < 380; i = i + step) {
-            for (let j = 25; j < 330; j += step) {
-                let r = Math.random();
-                let r2 = Math.pow(r, 7);
-                const mass = r2 * 8 + 4;
-                let particle = new Particle(i, j, mass, 2 * maxSpeed * (Math.random() - 0.5), 2 * maxSpeed * (Math.random() - 0.5));
-                particleSystem.addParticle(particle);
-            }
-        }
+        // for (let i = 25; i < 380; i = i + step) {
+        //     for (let j = 25; j < 330; j += step) {
+        //         let r = Math.random();
+        //         let r2 = Math.pow(r, 7);
+        //         const mass = r2 * 8 + 4;
+        //         let particle = new Particle(i, j, mass, 2 * maxSpeed * (Math.random() - 0.5), 2 * maxSpeed * (Math.random() - 0.5));
+        //         particleSystem.addParticle(particle);
+        //     }
+        // }
 
-        particleSystem.start();
-        
+        let p1 = new Particle(100, 100, 10, 2 * maxSpeed * 1, 2 * maxSpeed * 0);
+        particleSystem.addParticle(p1);
+
+        let p2 = new Particle(300, 100, 10, 2 * maxSpeed * -1, 2 * maxSpeed * 0);
+        particleSystem.addParticle(p2);
+
+        let p3 = new Particle(100, 300, 10, 2 * maxSpeed * 1, 2 * maxSpeed * 0);
+        particleSystem.addParticle(p3);
+
+        let p4 = new Particle(300, 300, 10, 2 * maxSpeed * -1, 2 * maxSpeed * 0);
+        particleSystem.addParticle(p4);
+
+        particleSystem.start(); 
     };
 
     s.draw = () => {
