@@ -14,7 +14,7 @@ function drawParticle(p5, p) {
 }
 
 function drawParticles(p5, particleSystem) {
-    Object.values(particleSystem.particles).forEach(particleData => drawParticle(p5, particleData.particle));
+    particleSystem.particles.forEach(particle => drawParticle(p5, particle));
 }
 
 let rectangle;

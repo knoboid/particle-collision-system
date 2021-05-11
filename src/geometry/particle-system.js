@@ -13,7 +13,7 @@ export default class ParticleSystem {
         this.setBoundary(boundary);
         this.particlePairSystem = new ParticlePairCollisionSystem();
         this.boundaryParticleSystem = new BoundaryParticleCollisionSystem(boundary);
-        this.particles = {};
+        this.particles = [];
         this.time = 0;
         this.timeOfNextCollision = Infinity;
         this.nextCollisions = [];
@@ -25,10 +25,8 @@ export default class ParticleSystem {
     }
 
     addParticle(particle) {
+        this.particles.push(particle);
         let particleName = particleRegistry.registerParticle(particle);
-        this.particles[particleName] = {
-            particle,
-        };
         this.particlePairSystem.addNewParticle(particleName);
         this.boundaryParticleSystem.addNewParticle(particleName);
         // this.futureCollisions.update(particleName, collisionManager.timeToNextCollision);
@@ -76,9 +74,7 @@ export default class ParticleSystem {
     }
 
     _advanceAllParticles(timeStep) {
-        Object.values(this.particles).forEach((particleData) => {
-            particleData.particle.update(timeStep);
-        });
+        this.particles.forEach(particle => particle.update(timeStep));
     }
 
     _executeCallbacks() {
