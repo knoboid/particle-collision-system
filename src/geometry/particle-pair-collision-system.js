@@ -142,23 +142,33 @@ export default class ParticlePairCollisionSystem {
     }
 
     /**
-     * Traverses the calculatedCollisionData property and finds the 
+     * Traverses the calculatedCollisionData property and finds 
      * collisionData with the lowest time-to-next-collision.
-     * Returns the result, and also assigns it to the nextCollisionData property
      * 
-     * @returns nextCollisionData 
+     * Returns the result, and also assigns it to the nextCollisions property.
+     * 
+     * Since it is possible for two particle collisions to occur simultaneously
+     * the result of this method is an array.
+     * 
+     * @returns nextCollisions 
      */
     getNextCollision() {
-        let nextCollisionData = [undefined, undefined, Infinity, undefined];
-        nextCollisionData = new CollisionData(Infinity);
+        let timeUntilNextCollision = Infinity;
+        let nextCollisions = [ new CollisionData(timeUntilNextCollision) ];
         let collisionData;
 
         this.traverseAll((name1, name2) => {
             collisionData = this.calculatedCollisionData[name1][name2];
-            if (collisionData.timeUntilCollision < nextCollisionData.timeUntilCollision) nextCollisionData = collisionData;
+            if (collisionData.timeUntilCollision < timeUntilNextCollision) {
+                timeUntilNextCollision = collisionData.timeUntilCollision;
+                nextCollisions = [ collisionData ];
+            }
+            else if(collisionData.timeUntilCollision == timeUntilNextCollision) {
+                nextCollisions.push(collisionData);
+            }
         });
-        this.nextCollisionData = nextCollisionData;
-        return nextCollisionData;
+        this.nextCollisions = nextCollisions;
+        return nextCollisions;
     }
 
 }

@@ -38,8 +38,8 @@ export default class ParticleSystem {
 
     start() {
         this.particlePairSystem.recalculateAll();
-        let nextPairCollision = this.particlePairSystem.getNextCollision();
-        let pairCollisionTime = nextPairCollision.timeUntilCollision;
+        let nextPairCollisions = this.particlePairSystem.getNextCollision();
+        const pairCollisionTime = nextPairCollisions[0]['timeUntilCollision'];
 
         let nextBoundaryCollisionDetectors = this.recalculateAllBoundaryCollisionManagers();
         
@@ -48,7 +48,7 @@ export default class ParticleSystem {
             this.timeOfNextCollision = nextBoundaryCollisionDetectors.time + this.time;
         }
         else {
-            this.nextCollisions = [nextPairCollision];
+            this.nextCollisions = nextPairCollisions;
             this.timeOfNextCollision = pairCollisionTime + this.time;   
         }
     }
