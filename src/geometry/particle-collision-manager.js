@@ -13,7 +13,7 @@ export default class ParticleCollisionManager {
 
     evaluateCollisionDetector(collisionDetector) {
         let collisionData = collisionDetector.recalculate();
-        let timeToNextCollisionForDectector = collisionData[2];
+        let timeToNextCollisionForDectector = collisionData.timeUntilCollision;
         if (timeToNextCollisionForDectector < this.timeToNextCollision) {
             this.timeToNextCollision = timeToNextCollisionForDectector;
             this.nextCollision = collisionData;
