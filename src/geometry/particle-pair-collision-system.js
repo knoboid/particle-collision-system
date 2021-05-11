@@ -77,13 +77,13 @@ export default class ParticlePairCollisionSystem {
      * @returns 
      */
     traverseAll(callback) {
-        let particleNames = this.particleNames();
-        let size = particleNames.length;
+        const particleNames = this.particleNames();
+        const size = particleNames.length;
         if (size < 2) return;
-        let outerLoopNames = particleNames.slice(0, -1);
+        const outerLoopNames = particleNames.slice(0, -1);
         let counter = 1;
         outerLoopNames.forEach( name1 => {
-            let innerLoopNames = particleNames.slice(counter)
+            const innerLoopNames = particleNames.slice(counter)
             innerLoopNames.forEach( name2 => {
                 callback(name1, name2);
             });
