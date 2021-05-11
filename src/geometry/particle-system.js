@@ -1,16 +1,16 @@
 import ParticleRegistry from './particle-registry';
 import ParticleCollisionManager from './particle-collision-manager';
 // import FurureCollisions from './future-collisions';
-import ParticlePairCollisionDetectorRegistry from './particle-pair-collision-detector-registry';
+import ParticlePairCollisionSystem from './particle-pair-collision-system';
 
 let particleRegistry = ParticleRegistry.getInstance();
-let particlePairRegistry = ParticlePairCollisionDetectorRegistry.getInstance();
 
 /**
  * 
  */
 export default class ParticleSystem {
     constructor(boundary) {
+        this.particlePairSystem = new ParticlePairCollisionSystem();
         this.setBoundary(boundary);
         this.particles = {};
         this.time = 0;
@@ -32,13 +32,13 @@ export default class ParticleSystem {
             particle,
             collisionManager,
         };
-        particlePairRegistry.addParticle(particleName);
+        this.particlePairSystem.addNewParticle(particleName);
         // this.futureCollisions.update(particleName, collisionManager.timeToNextCollision);
     }
 
     start() {
-        particlePairRegistry.recalculateAll();
-        let nextPairCollision = particlePairRegistry.getNextCollision();
+        this.particlePairSystem.recalculateAll();
+        let nextPairCollision = this.particlePairSystem.getNextCollision();
         let pairCollisionTime = nextPairCollision.timeUntilCollision;
 
         let nextBoundaryCollisionDetectors = this.recalculateAllBoundaryCollisionManagers();
