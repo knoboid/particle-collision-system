@@ -4,4 +4,8 @@ export default class CollisionData {
         this.callback = callback;
         this.clientData = clientData;
     }
+
+    setParticleNames(particleNames) {
+        this.particleNames = particleNames;
+    }
 }

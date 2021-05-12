@@ -24,19 +24,20 @@ const sketch = (s) => {
 
     s.setup = () => {
         s.createCanvas(s.windowWidth, s.windowHeight);
-        rectangle = new Rectangle(0, 0, 400, 400);
+        const width = 400, height = 400;
+        rectangle = new Rectangle(0, 0, width, height);
         const boundary = new RectangularBoundary(rectangle);
 
         particleSystem = new ParticleSystem(boundary);
 
-        const maxSpeed = 2;
-        const step = 50;
+        const maxSpeed = 4;
+        const step = 100;
 
-        for (let i = 25; i < 380; i = i + step) {
-            for (let j = 25; j < 330; j += step) {
+        for (let i = 25; i < width; i = i + step) {
+            for (let j = 25; j < height; j += step) {
                 let r = Math.random();
-                let r2 = Math.pow(r, 7);
-                const mass = r2 * 8 + 4;
+                let r2 = Math.pow(r, 5);
+                const mass = r2 * 10 + 10;
                 let particle = new Particle(i, j, mass, 2 * maxSpeed * (Math.random() - 0.5), 2 * maxSpeed * (Math.random() - 0.5));
                 particleSystem.addParticle(particle);
             }

@@ -28,6 +28,10 @@ export default class BoundaryParticleCollisionSystem {
         return Object.keys(this.collisionDetectors);
     }
 
+    recalculate(particleName) {
+        this.recalculateAndStore(particleName);
+    }
+
     recalculateAll() {
         this.getParticleNames().forEach( particleName => {
             this.recalculateAndStore(particleName);
@@ -41,16 +45,16 @@ export default class BoundaryParticleCollisionSystem {
     }
 
     storeCollisionData(particleName, collisionData) {
+        collisionData.setParticleNames([particleName]);
         this.calculatedCollisionData[particleName] = collisionData;
     }
 
     getNextCollision() {
         let timeUntilNextCollision = Infinity;
         let nextCollisions = [ new CollisionData(timeUntilNextCollision) ];
-        let collisionData;
 
         this.getParticleNames().forEach( particleName => {
-            collisionData = this.calculatedCollisionData[particleName];
+            const collisionData = this.calculatedCollisionData[particleName];
             if (collisionData.timeUntilCollision < timeUntilNextCollision) {
                 timeUntilNextCollision = collisionData.timeUntilCollision;
                 nextCollisions = [ collisionData ];
@@ -61,5 +65,12 @@ export default class BoundaryParticleCollisionSystem {
         });
         this.nextCollisions = nextCollisions;
         return nextCollisions;
+    }
+
+    reduceCalculatedCollisionTimes(timeDelta) {
+        this.getParticleNames().forEach( particleName => {
+            const collisionData = this.calculatedCollisionData[particleName];
+            collisionData.timeUntilCollision -= timeDelta;
+        });
     }
 }

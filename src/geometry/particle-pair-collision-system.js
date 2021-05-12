@@ -128,6 +128,7 @@ export default class ParticlePairCollisionSystem {
      * @param {*} collisionData 
      */
     storeCollisionData(name1, name2, collisionData) {
+        collisionData.setParticleNames([name1, name2]);
         this.calculatedCollisionData[name1][name2] = collisionData;
         this.calculatedCollisionData[name2][name1] = collisionData;
     }
@@ -169,6 +170,17 @@ export default class ParticlePairCollisionSystem {
         });
         this.nextCollisions = nextCollisions;
         return nextCollisions;
+    }
+
+    reduceCalculatedCollisionTimes(timeDelta) {
+        this.traverseAll((name1, name2) => {
+            this.decreaseCollisionDataTime(name1, name2, timeDelta);
+        });
+    }
+
+    decreaseCollisionDataTime(name1, name2, timeDelta) {
+        const collisionData = this.calculatedCollisionData[name1][name2];
+        collisionData.timeUntilCollision -= timeDelta;
     }
 
 }
