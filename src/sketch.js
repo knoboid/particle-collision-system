@@ -1,9 +1,9 @@
 import p5 from 'p5';
 
-import Rectangle from './geometry/boundary-particle-collisions/rectangle';
-import Particle from './geometry/particle';
-import RectangularBoundary from './geometry/boundary-particle-collisions/rectangular-boundary';
-import ParticleSystem from './geometry/particle-system';
+import Rectangle from './particle-collision-system/boundary-particle-collisions/rectangle';
+import Particle from './particle-collision-system/particle';
+import RectangularBoundary from './particle-collision-system/boundary-particle-collisions/rectangular-boundary';
+import ParticleSystem from './particle-collision-system/particle-system';
 
 function drawRectangle(p5, r) {
     p5.rect(r.x, r.y, r.width, r.height);
