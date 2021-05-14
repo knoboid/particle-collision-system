@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import ParticlePairCollisionDetector from '../../src/geometry/particle-pair-collision-detector';
+import ParticlePairCollisionDetector from '../../src/geometry/particle-pair-collisions/particle-pair-collision-detector';
 import Particle from '../../src/geometry/particle';
 
 describe('Tests for ParticlePairCollisionDetector object', () => {

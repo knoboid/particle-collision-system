@@ -1,6 +1,6 @@
-import ParticleRegistry from './particle-registry';
+import ParticleRegistry from '../particle-registry';
 import ParticlePairCollisionDetector from './particle-pair-collision-detector';
-import CollisionData from './collision-data';
+import CollisionData from '../collision-data';
 
 let particleRegistry = ParticleRegistry.getInstance();
 

@@ -1,4 +1,4 @@
-import CollisionData from './collision-data';
+import CollisionData from '../collision-data';
 
 export default class RectangularBoundaryCollisionDetector {
     constructor(p1, rectangle) {

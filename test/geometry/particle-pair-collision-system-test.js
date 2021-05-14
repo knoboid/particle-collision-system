@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import ParticlePairCollisionSystem from '../../src/geometry/particle-pair-collision-system';
+import ParticlePairCollisionSystem from '../../src/geometry/particle-pair-collisions/particle-pair-collision-system';
 import Particle from '../../src/geometry/particle';
 import ParticleRegistry from '../../src/geometry/particle-registry';
 
@@ -110,9 +110,11 @@ describe('Tests for ParticlePairCollisionSystem', () => {
 
         particlePairCollisionSystem.recalculateAll();
 
-        let nextCollision = particlePairCollisionSystem.getNextCollision();
-        expect(nextCollision.timeUntilCollision).to.equal(3.5);
-        expect(particlePairCollisionSystem.nextCollisionData.timeUntilCollision).to.equal(3.5);
+        let nextCollisions = particlePairCollisionSystem.getNextCollision();
+        expect(nextCollisions.length).to.equal(1);
+        const firstCollision = nextCollisions[0];
+        expect(firstCollision.timeUntilCollision).to.equal(3.5);
+        expect(particlePairCollisionSystem.nextCollisions[0].timeUntilCollision).to.equal(3.5);
     });
 
 });

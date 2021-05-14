@@ -1,5 +1,5 @@
-import CollisionData from './collision-data';
-import { elasticCollision as applyElasticCollision } from './physics';
+import CollisionData from '../collision-data';
+import { elasticCollision as applyElasticCollision } from '../physics';
 
 export default class ParticlePairCollisionDetector {
     constructor(p1, p2) {

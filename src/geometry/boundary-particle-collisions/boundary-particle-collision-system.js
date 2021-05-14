@@ -1,5 +1,5 @@
-import ParticleRegistry from './particle-registry';
-import CollisionData from './collision-data';
+import ParticleRegistry from '../particle-registry';
+import CollisionData from '../collision-data';
 
 let particleRegistry = ParticleRegistry.getInstance();
 

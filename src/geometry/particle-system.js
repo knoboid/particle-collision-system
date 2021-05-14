@@ -1,7 +1,6 @@
 import ParticleRegistry from './particle-registry';
-// import FurureCollisions from './future-collisions';
-import ParticlePairCollisionSystem from './particle-pair-collision-system';
-import BoundaryParticleCollisionSystem from './boundary-particle-collision-system';
+import ParticlePairCollisionSystem from './particle-pair-collisions/particle-pair-collision-system';
+import BoundaryParticleCollisionSystem from './boundary-particle-collisions/boundary-particle-collision-system';
 
 let particleRegistry = ParticleRegistry.getInstance();
 

@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import BoundaryParticleCollisionSystem from '../../src/geometry/boundary-particle-collision-system';
+import BoundaryParticleCollisionSystem from '../../src/geometry/boundary-particle-collisions/boundary-particle-collision-system';
 import Particle from '../../src/geometry/particle';
 import ParticleRegistry from '../../src/geometry/particle-registry';
-import Rectangle from '../../src/geometry/rectangle';
+import Rectangle from '../../src/geometry/boundary-particle-collisions/rectangle';
 
-import RectangularBoundary from '../../src/geometry/rectangular-boundary';
+import RectangularBoundary from '../../src/geometry/boundary-particle-collisions/rectangular-boundary';
 
 
 describe('Tests for BoundaryParticleCollisionSystem', () => {

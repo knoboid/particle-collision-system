@@ -2,8 +2,8 @@ import { expect } from 'chai';
 
 import ParticleSystem from '../../src/geometry/particle-system';
 import Particle from '../../src/geometry/particle';
-import Rectangle from '../../src/geometry/rectangle';
-import RectangularBoundary from '../../src/geometry/rectangular-boundary';
+import Rectangle from '../../src/geometry/boundary-particle-collisions/rectangle';
+import RectangularBoundary from '../../src/geometry/boundary-particle-collisions/rectangular-boundary';
 
 let particleSystem;
 

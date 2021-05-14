@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import Rectangle from '../../src/geometry/rectangle';
+import Rectangle from '../../src/geometry/boundary-particle-collisions/rectangle';
 import Particle from '../../src/geometry/particle';
-import RectangularBoundaryCollisionDetector from '../../src/geometry/rectangular-boundary-collision-detector';
+import RectangularBoundaryCollisionDetector from '../../src/geometry/boundary-particle-collisions/rectangular-boundary-collision-detector';
 
 function transform(collisionData) {
     let h = collisionData.clientData.h;
