@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import ParticleRegistry from '../../src/geometry/particle-registry';
-import Particle from '../../src/geometry/particle';
+import ParticleRegistry from '../../src/particle-collision-system/particle-registry';
+import Particle from '../../src/particle-collision-system/particle';
 
 
 describe('Tests for ParticleRegistry class', () => {

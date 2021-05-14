@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import FutureCollisions from '../../src/geometry/future-collisions';
+import FutureCollisions from '../../src/particle-collision-system/future-collisions';
 
 /**
  * FutureCollisions

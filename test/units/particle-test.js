@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import Vector from '../../src/geometry/vector';
+import Vector from '../../src/particle-collision-system/vector';
 
-import Particle from '../../src/geometry/particle';
+import Particle from '../../src/particle-collision-system/particle';
 
 describe('Tests for Particle class', () => {
 

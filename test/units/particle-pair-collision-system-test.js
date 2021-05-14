@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import ParticlePairCollisionSystem from '../../src/geometry/particle-pair-collisions/particle-pair-collision-system';
-import Particle from '../../src/geometry/particle';
-import ParticleRegistry from '../../src/geometry/particle-registry';
+import ParticlePairCollisionSystem from '../../src/particle-collision-system/particle-pair-collisions/particle-pair-collision-system';
+import Particle from '../../src/particle-collision-system/particle';
+import ParticleRegistry from '../../src/particle-collision-system/particle-registry';
 
 function countCollisionDetectorMatrix(particlePairCollisionSystem) {    
     let counter = 0;

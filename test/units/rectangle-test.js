@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import Rectangle from '../../src/geometry/boundary-particle-collisions/rectangle';
+import Rectangle from '../../src/particle-collision-system/boundary-particle-collisions/rectangle';
 
 describe('Tests for Rectangle class', () => {
 

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { elasticCollision } from '../../src/geometry/physics';
-import Particle from '../../src/geometry/particle';
-import Vector from '../../src/geometry/vector';
+import { elasticCollision } from '../../src/particle-collision-system/physics';
+import Particle from '../../src/particle-collision-system/particle';
+import Vector from '../../src/particle-collision-system/vector';
 
 /**
  * Elastic Collision Test

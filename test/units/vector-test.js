@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import Vector from '../../src/geometry/vector';
+import Vector from '../../src/particle-collision-system/vector';
 
 describe('Tests for Vector class', () => {
 
