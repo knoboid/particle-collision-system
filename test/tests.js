@@ -9,3 +9,4 @@ import './units/particle-pair-collision-detector-test';
 import './units/elastic-collision-test';
 import './units/particle-pair-collision-system-test.js';
 import './units/boundary-particle-collision-system-test.js';
+import './units/next-collisions-test.js';

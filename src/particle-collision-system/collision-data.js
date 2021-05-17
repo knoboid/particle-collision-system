@@ -1,5 +1,5 @@
 export default class CollisionData {
-    constructor(timeOfCollision, callback, clientData, time=0) {
+    constructor(timeOfCollision=Infinity, callback=()=>{}, clientData) {
         this.timeOfCollision = timeOfCollision;
         this.callback = callback;
         this.clientData = clientData;
