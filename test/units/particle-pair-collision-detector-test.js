@@ -11,14 +11,14 @@ describe('Tests for ParticlePairCollisionDetector object', () => {
 
         let ppcd = new ParticlePairCollisionDetector(p1, p2);
         let collisionData = ppcd.recalculate();
-        let timeToCollision = collisionData.timeUntilCollision;
+        let timeToCollision = collisionData.timeOfCollision;
 
         expect(timeToCollision).to.equal(4);
 
         p2.position.x = 11;
         p2.velocity.x = -0.5;
         collisionData = ppcd.recalculate();
-        timeToCollision = collisionData.timeUntilCollision;
+        timeToCollision = collisionData.timeOfCollision;
 
         expect(timeToCollision).to.equal(6);
     });

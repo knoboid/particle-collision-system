@@ -7,7 +7,7 @@ import RectangularBoundaryCollisionDetector from '../../src/particle-collision-s
 function transform(collisionData) {
     let h = collisionData.clientData.h;
     let v = collisionData.clientData.v;
-    return [h, v, collisionData.timeUntilCollision, collisionData.callback];
+    return [h, v, collisionData.timeOfCollision, collisionData.callback];
 }
 
 describe('Tests for RectangularBoundaryCollisionGeometry class', () => {

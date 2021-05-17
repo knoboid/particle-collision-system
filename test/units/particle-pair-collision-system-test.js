@@ -83,7 +83,7 @@ describe('Tests for ParticlePairCollisionSystem', () => {
 
         particlePairCollisionSystem.recalculate(name1);
         expect(particlePairCollisionSystem.calculatedCollisionData[name1][name2]).to.equal(particlePairCollisionSystem.calculatedCollisionData[name2][name1]);
-        let timeToCollision = particlePairCollisionSystem.calculatedCollisionData[name1][name2].timeUntilCollision;
+        let timeToCollision = particlePairCollisionSystem.calculatedCollisionData[name1][name2].timeOfCollision;
         expect(timeToCollision).to.equal(4);
 
         expect(particlePairCollisionSystem.calculatedCollisionData[name3][name4]).to.not.exist;
@@ -91,7 +91,7 @@ describe('Tests for ParticlePairCollisionSystem', () => {
         particlePairCollisionSystem.recalculateAll();
 
         expect(particlePairCollisionSystem.calculatedCollisionData[name3][name4]).to.exist;
-        timeToCollision = particlePairCollisionSystem.calculatedCollisionData[name3][name4].timeUntilCollision;
+        timeToCollision = particlePairCollisionSystem.calculatedCollisionData[name3][name4].timeOfCollision;
         expect(timeToCollision).to.equal(5);
     });
 
@@ -113,8 +113,8 @@ describe('Tests for ParticlePairCollisionSystem', () => {
         let nextCollisions = particlePairCollisionSystem.getNextCollision();
         expect(nextCollisions.length).to.equal(1);
         const firstCollision = nextCollisions[0];
-        expect(firstCollision.timeUntilCollision).to.equal(3.5);
-        expect(particlePairCollisionSystem.nextCollisions[0].timeUntilCollision).to.equal(3.5);
+        expect(firstCollision.timeOfCollision).to.equal(3.5);
+        expect(particlePairCollisionSystem.nextCollisions[0].timeOfCollision).to.equal(3.5);
     });
 
 });

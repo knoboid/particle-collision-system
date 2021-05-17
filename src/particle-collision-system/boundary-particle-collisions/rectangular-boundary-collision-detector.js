@@ -6,7 +6,7 @@ export default class RectangularBoundaryCollisionDetector {
         this.rectangle = rectangle;
     }
 
-    recalculate(currentTime) {
+    recalculate(currentTime=0) {
         let timeToRight, timeToTop, timeToLeft, timeToBottom;
         let timeDifference, timeComparison;
         let xDirection = Math.sign(this.p1.velocity.x);
