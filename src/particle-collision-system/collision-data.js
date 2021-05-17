@@ -1,6 +1,6 @@
 export default class CollisionData {
-    constructor(timeUntilCollision, callback, clientData, time=0) {
-        this.timeUntilCollision = timeUntilCollision;
+    constructor(timeOfCollision, callback, clientData, time=0) {
+        this.timeOfCollision = timeOfCollision;
         this.callback = callback;
         this.clientData = clientData;
     }

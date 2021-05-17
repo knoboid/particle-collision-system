@@ -28,19 +28,19 @@ export default class BoundaryParticleCollisionSystem {
         return Object.keys(this.collisionDetectors);
     }
 
-    recalculate(particleName) {
-        this.recalculateAndStore(particleName);
+    recalculate(particleName, currentTime) {
+        this.recalculateAndStore(particleName, currentTime);
     }
 
-    recalculateAll() {
+    recalculateAll(currentTime) {
         this.getParticleNames().forEach( particleName => {
-            this.recalculateAndStore(particleName);
+            this.recalculateAndStore(particleName, currentTime);
         });
     }
 
-    recalculateAndStore(particleName) {
+    recalculateAndStore(particleName, currentTime) {
         let collisionDetector = this.getCollisionDetector(particleName);
-        let collisionData = collisionDetector.recalculate();
+        let collisionData = collisionDetector.recalculate(currentTime);
         this.storeCollisionData(particleName, collisionData);
     }
 
@@ -55,11 +55,11 @@ export default class BoundaryParticleCollisionSystem {
 
         this.getParticleNames().forEach( particleName => {
             const collisionData = this.calculatedCollisionData[particleName];
-            if (collisionData.timeUntilCollision < timeUntilNextCollision) {
-                timeUntilNextCollision = collisionData.timeUntilCollision;
+            if (collisionData.timeOfCollision < timeUntilNextCollision) {
+                timeUntilNextCollision = collisionData.timeOfCollision;
                 nextCollisions = [ collisionData ];
             }
-            else if(collisionData.timeUntilCollision == timeUntilNextCollision) {
+            else if(collisionData.timeOfCollision == timeUntilNextCollision) {
                 nextCollisions.push(collisionData);
             }
         });
@@ -67,10 +67,4 @@ export default class BoundaryParticleCollisionSystem {
         return nextCollisions;
     }
 
-    reduceCalculatedCollisionTimes(timeDelta) {
-        this.getParticleNames().forEach( particleName => {
-            const collisionData = this.calculatedCollisionData[particleName];
-            collisionData.timeUntilCollision -= timeDelta;
-        });
-    }
 }

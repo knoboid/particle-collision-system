@@ -14,11 +14,11 @@ export default class ParticlePairCollisionDetector {
         applyElasticCollision(this.p1, this.p2, m1, m2);
     }
 
-    recalculate() {
+    recalculate(currentTime) {
         this.collisionCalculator.update();
 
         if (this.collisionCalculator.isOnCollisionCourse()) {
-            return new CollisionData(this.collisionCalculator.timeUntilCollision(), () => this.callback());
+            return new CollisionData(currentTime + this.collisionCalculator.timeUntilCollision(), () => this.callback());
         }
 
         return new CollisionData(Infinity);

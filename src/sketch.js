@@ -24,13 +24,13 @@ const sketch = (s) => {
 
     s.setup = () => {
         s.createCanvas(s.windowWidth, s.windowHeight);
-        const width = 400, height = 400;
+        const width = 400, height = 800;
         rectangle = new Rectangle(0, 0, width, height);
         const boundary = new RectangularBoundary(rectangle);
 
         particleSystem = new ParticleSystem(boundary);
 
-        const maxSpeed = 4;
+        const maxSpeed = 1;
         const step = 100;
 
         for (let i = 25; i < width; i = i + step) {

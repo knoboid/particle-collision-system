@@ -63,10 +63,10 @@ export default class ParticlePairCollisionSystem {
      * Recalculate and store all collisionData for a Particle.
      * @param {*} particleName 
      */
-    recalculate(particleName) {
+    recalculate(particleName, currentTime) {
         let collisionDetectorEntries = Object.entries(this.getCollisionDetectors(particleName));
         collisionDetectorEntries.forEach( ([name, collisionDetector]) => {
-            let collisionData = collisionDetector.recalculate();
+            let collisionData = collisionDetector.recalculate(currentTime);
             this.storeCollisionData(particleName, name, collisionData);
         });
     }
@@ -94,9 +94,9 @@ export default class ParticlePairCollisionSystem {
     /**
      * Recalculate and store all collisionData.
      */
-    recalculateAll() {
+    recalculateAll(currentTime) {
         this.traverseAll((name1, name2) => {
-            this.recalculateAndStore(name1, name2);
+            this.recalculateAndStore(name1, name2, currentTime);
         });
     }
 
@@ -115,9 +115,9 @@ export default class ParticlePairCollisionSystem {
      * @param {*} name1 
      * @param {*} name2 
      */
-    recalculateAndStore(name1, name2) {
+    recalculateAndStore(name1, name2, currentTime) {
         let collisionDetector = this.getCollisionDetector(name1, name2);
-        let collisionData = collisionDetector.recalculate();
+        let collisionData = collisionDetector.recalculate(currentTime);
         this.storeCollisionData(name1, name2, collisionData);
     }
 
@@ -160,27 +160,16 @@ export default class ParticlePairCollisionSystem {
 
         this.traverseAll((name1, name2) => {
             collisionData = this.calculatedCollisionData[name1][name2];
-            if (collisionData.timeUntilCollision < timeUntilNextCollision) {
-                timeUntilNextCollision = collisionData.timeUntilCollision;
+            if (collisionData.timeOfCollision < timeUntilNextCollision) {
+                timeUntilNextCollision = collisionData.timeOfCollision;
                 nextCollisions = [ collisionData ];
             }
-            else if(collisionData.timeUntilCollision == timeUntilNextCollision) {
+            else if(collisionData.timeOfCollision == timeUntilNextCollision) {
                 nextCollisions.push(collisionData);
             }
         });
         this.nextCollisions = nextCollisions;
         return nextCollisions;
-    }
-
-    reduceCalculatedCollisionTimes(timeDelta) {
-        this.traverseAll((name1, name2) => {
-            this.decreaseCollisionDataTime(name1, name2, timeDelta);
-        });
-    }
-
-    decreaseCollisionDataTime(name1, name2, timeDelta) {
-        const collisionData = this.calculatedCollisionData[name1][name2];
-        collisionData.timeUntilCollision -= timeDelta;
     }
 
 }
