@@ -19,14 +19,10 @@ export default class ParticleSystem {
         this.collisionSystems.push(collisionSystem);
     }
 
-    forEachCollisionSystem(callback) {
-        this.collisionSystems.forEach(collisionSystem => callback(collisionSystem));
-    }
-
     addParticle(particle) {
         this.particles.push(particle);
         let particleName = particleRegistry.registerParticle(particle);
-        this.forEachCollisionSystem(collisionSystem => {
+        this.collisionSystems.forEach(collisionSystem => {
             collisionSystem.addNewParticle(particleName);
         });
     }
@@ -34,7 +30,7 @@ export default class ParticleSystem {
     start() {
         this.nc.reset();
 
-        this.forEachCollisionSystem(collisionSystem => {
+        this.collisionSystems.forEach(collisionSystem => {
             collisionSystem.recalculateAll(this.time);
             collisionSystem.evaluateNextCollisions(this.nc);
         });
@@ -65,7 +61,7 @@ export default class ParticleSystem {
     recalculate(particleNames, currentTime) {
         this.nc.reset();
 
-        this.forEachCollisionSystem( collisionSystem => {
+        this.collisionSystems.forEach( collisionSystem => {
             particleNames.forEach(particleName => {
                 collisionSystem.recalculate(particleName, currentTime);
             });
