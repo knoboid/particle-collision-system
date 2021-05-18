@@ -11,12 +11,18 @@ const SPEED_FACTOR = 1;   // A Number greater than 0
 const SIZE_VARIABILITY = 0.7; // Vary between 0 and 0.999999999!
 const BIAS_TOWARDS_SMALLER_PARTICLES = 2; // A number between 0 and Infinity. 
     // BIAS_TOWARDS_SMALLER_PARTICLES = 1 gives a linear fall-off.
-const SCALE = 0.04;   // A Number between 0 and 1. Particle size relative to display.
-const DENSITY = 0.25;  // A Number between 0 and 1. The tightness of particle packing.
+const SCALE = 0.08;   // A Number between 0 and 1. Particle size relative to display.
+const DENSITY = 0.45;  // A Number between 0 and 1. The tightness of particle packing.
 
-function drawRectangle(p5, r) {
-    p5.rect(r.x, r.y, r.width, r.height);
-}
+const BACKGROUND_COLOURS = [
+    '#ff0000',
+    '#ffa500',
+    '#ffff00',
+    '#008000',
+    '#0000ff',
+    '#4b0082',
+    '#ee82ee',    
+];
 
 function drawParticle(p5, particle) {
     p5.circle(particle.position.x, particle.position.y, particle.radius*2);
@@ -24,14 +30,23 @@ function drawParticle(p5, particle) {
 
 function drawParticles(p5, particleSystem) {
     particleSystem.particles.forEach(colouredParticle => {
-        p5.fill(...colouredParticle.fillArguments());
+        p5.fill(...colouredParticle.fillArguments(), 155);
         drawParticle(p5, colouredParticle);
     });
 }
 
+function drawBackground(p5, colourArray, windowWidth, windowHeight) {
+    const colourCount = colourArray.length;
+    const stripeWidth = windowWidth / colourCount;
+    for (let i = 0; i < colourCount; i++) {
+        p5.fill(colourArray[i]);
+        p5.rect(stripeWidth * i, 0, stripeWidth + 1, windowHeight);
+    }
+}
+
 let rectangle;
 const particleSystem = new ParticleSystem();
-
+let colourArray;
 const sketch = (s) => {
 
     s.setup = () => {
@@ -61,19 +76,17 @@ const sketch = (s) => {
             }
         }
 
-        particleSystem.start(); 
+        particleSystem.start();
+
+        colourArray = makeColourArrayThatLooksOkayWithTheCurrentScreenWidth(BACKGROUND_COLOURS, s.windowWidth); // BACKGROUND_COLOURS;
     };
 
     s.draw = () => {
-        s.background(0);
-
-        s.fill('#001f1f');
-        drawRectangle(s, rectangle);
-
         s.noStroke();
+        drawBackground(s, colourArray, s.windowWidth, s.windowHeight);
 
         particleSystem.update(1);
-
+        s.stroke(31);
         drawParticles(s, particleSystem);
     };
 
@@ -114,4 +127,16 @@ function randomColour(redRange, greenRange, blueRange) {
         green: colourRange(...greenRange),
         blue: colourRange(...blueRange)
     }; 
+}
+
+function makeColourArrayThatLooksOkayWithTheCurrentScreenWidth(colourArray, screenWidth) {
+    const unitWidth = 800;
+    const repeats = Math.floor(screenWidth / unitWidth);
+    
+    let result = [];
+    for(let i = 0; i < repeats; i++) {
+        result = result.concat(colourArray);
+    }
+
+    return repeats ===0 ? colourArray : result;
 }
