@@ -4,6 +4,9 @@ import Rectangle from './particle-collision-system/boundary-particle-collisions/
 import Particle from './particle-collision-system/particle';
 import RectangularBoundary from './particle-collision-system/boundary-particle-collisions/rectangular-boundary';
 import ParticleSystem from './particle-collision-system/particle-system';
+import ParticlePairCollisionSystem from './particle-collision-system/particle-pair-collisions/particle-pair-collision-system';
+import BoundaryParticleCollisionSystem from './particle-collision-system/boundary-particle-collisions/boundary-particle-collision-system';
+
 
 function drawRectangle(p5, r) {
     p5.rect(r.x, r.y, r.width, r.height);
@@ -24,11 +27,17 @@ const sketch = (s) => {
 
     s.setup = () => {
         s.createCanvas(s.windowWidth, s.windowHeight);
+
         const width = 400, height = 800;
         rectangle = new Rectangle(0, 0, width, height);
         const boundary = new RectangularBoundary(rectangle);
 
-        particleSystem = new ParticleSystem(boundary);
+        const particlePairSystem = new ParticlePairCollisionSystem();
+        const boundaryParticleSystem = new BoundaryParticleCollisionSystem(boundary);
+
+        particleSystem = new ParticleSystem();
+        particleSystem.addCollisionSystem(particlePairSystem);
+        particleSystem.addCollisionSystem(boundaryParticleSystem);
 
         const maxSpeed = 1;
         const step = 100;

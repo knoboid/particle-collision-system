@@ -1,6 +1,4 @@
 import ParticleRegistry from './particle-registry';
-import ParticlePairCollisionSystem from './particle-pair-collisions/particle-pair-collision-system';
-import BoundaryParticleCollisionSystem from './boundary-particle-collisions/boundary-particle-collision-system';
 import NextCollisions from './next-collisions';
 
 let particleRegistry = ParticleRegistry.getInstance();
@@ -9,30 +7,37 @@ let particleRegistry = ParticleRegistry.getInstance();
  * 
  */
 export default class ParticleSystem {
-    constructor(boundary) {
-        this.particlePairSystem = new ParticlePairCollisionSystem();
-        this.boundaryParticleSystem = new BoundaryParticleCollisionSystem(boundary);
+    constructor() {
+        this.collisionSystems = [];
         this.particles = [];
         this.time = 0;
         this.timeOfMostRecentCollision = 0;
         this.nc = new NextCollisions();
     }
 
+    addCollisionSystem(collisionSystem) {
+        this.collisionSystems.push(collisionSystem);
+    }
+
+    forEachCollisionSystem(callback) {
+        this.collisionSystems.forEach(collisionSystem => callback(collisionSystem));
+    }
+
     addParticle(particle) {
         this.particles.push(particle);
         let particleName = particleRegistry.registerParticle(particle);
-        this.particlePairSystem.addNewParticle(particleName);
-        this.boundaryParticleSystem.addNewParticle(particleName);
+        this.forEachCollisionSystem(collisionSystem => {
+            collisionSystem.addNewParticle(particleName);
+        });
     }
 
     start() {
         this.nc.reset();
 
-        this.particlePairSystem.recalculateAll(this.time);
-        this.particlePairSystem.evaluateNextCollisions(this.nc);
-
-        this.boundaryParticleSystem.recalculateAll(this.time);
-        this.boundaryParticleSystem.evaluateNextCollisions(this.nc);
+        this.forEachCollisionSystem(collisionSystem => {
+            collisionSystem.recalculateAll(this.time);
+            collisionSystem.evaluateNextCollisions(this.nc);
+        });
     }
 
     update(timeStep=1) {
@@ -60,15 +65,12 @@ export default class ParticleSystem {
     recalculate(particleNames, currentTime) {
         this.nc.reset();
 
-        particleNames.forEach(particleName => {
-            this.particlePairSystem.recalculate(particleName, currentTime);
+        this.forEachCollisionSystem( collisionSystem => {
+            particleNames.forEach(particleName => {
+                collisionSystem.recalculate(particleName, currentTime);
+            });
+            collisionSystem.evaluateNextCollisions(this.nc);
         });
-        this.particlePairSystem.evaluateNextCollisions(this.nc);
-
-        particleNames.forEach(particleName => {
-            this.boundaryParticleSystem.recalculate(particleName, currentTime);
-        });
-        this.boundaryParticleSystem.evaluateNextCollisions(this.nc);
     }
 
     _getInvolvedParticles() {
