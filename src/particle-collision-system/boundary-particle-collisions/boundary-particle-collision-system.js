@@ -49,22 +49,12 @@ export default class BoundaryParticleCollisionSystem {
         this.calculatedCollisionData[particleName] = collisionData;
     }
 
-    getNextCollision() {
-        let timeUntilNextCollision = Infinity;
-        let nextCollisions = [ new CollisionData(timeUntilNextCollision) ];
-
+    evaluateNextCollisions(nextCollisions) {
         this.getParticleNames().forEach( particleName => {
             const collisionData = this.calculatedCollisionData[particleName];
-            if (collisionData.timeOfCollision < timeUntilNextCollision) {
-                timeUntilNextCollision = collisionData.timeOfCollision;
-                nextCollisions = [ collisionData ];
-            }
-            else if(collisionData.timeOfCollision == timeUntilNextCollision) {
-                nextCollisions.push(collisionData);
-            }
+            nextCollisions.evaluate(collisionData);
+
         });
-        this.nextCollisions = nextCollisions;
-        return nextCollisions;
     }
 
 }
