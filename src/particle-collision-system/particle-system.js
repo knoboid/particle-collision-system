@@ -10,18 +10,12 @@ let particleRegistry = ParticleRegistry.getInstance();
  */
 export default class ParticleSystem {
     constructor(boundary) {
-        this.setBoundary(boundary);
-
         this.particlePairSystem = new ParticlePairCollisionSystem();
         this.boundaryParticleSystem = new BoundaryParticleCollisionSystem(boundary);
         this.particles = [];
         this.time = 0;
         this.timeOfMostRecentCollision = 0;
         this.nc = new NextCollisions();
-    }
-
-    setBoundary(boundary) {
-        this.boundary = boundary;
     }
 
     addParticle(particle) {
